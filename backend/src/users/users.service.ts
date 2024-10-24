@@ -10,7 +10,7 @@ import { SigninDTO } from './DTO/signIn.dto';
 export class UsersService {
   constructor(
     @InjectRepository(Users) private readonly userRepo: Repository<Users>,
-  ) {}
+  ) { }
 
   async createUser(userData: SignUpDto) {
     const { password, ...Data } = userData;
@@ -20,7 +20,7 @@ export class UsersService {
       throw new BadRequestException('Username already exists');
     }
 
-    const user_email = await this.userRepo.findOneBy({ email: Data.email });
+    const user_email = await this.findByEmail(Data.email);
     if (user_email) {
       throw new BadRequestException('Email already exists');
     }
@@ -32,7 +32,9 @@ export class UsersService {
       ...Data,
     });
 
-    return await this.userRepo.save(createUser);
+    await this.userRepo.save(createUser);
+
+    return "new user is created"
   }
 
   async loginUser(loginCredentials: SigninDTO) {
