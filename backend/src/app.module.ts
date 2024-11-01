@@ -13,7 +13,7 @@ import { UsersModule } from './users/users.module';
       database: 'postgres',
       username: 'postgres',
       entities: [Users],
-      password: '1234',
+      password: 'Asif@123',
       synchronize: true,
       logging: true,
     }),
