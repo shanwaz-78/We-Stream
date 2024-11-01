@@ -17,7 +17,7 @@ export class Users {
     @Column({ type: 'varchar', length: '255' })
     password!: string;
 
-    @Column({ type: 'enum', enum: ['m', 'f', 'u'] })
+    @Column({ type: 'enum', enum: ['m', 'f', 'o'] })
     /**
    * m - male
    * f - female
