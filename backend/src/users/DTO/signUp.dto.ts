@@ -32,6 +32,6 @@ export class SignUpDto {
   age!:number
 
   @IsString()
-  @IsEnum(['f', 'm', 'u'])
+  @IsEnum(['f', 'm', 'o'])
   gender!: string;
 }

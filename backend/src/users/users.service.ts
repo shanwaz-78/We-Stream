@@ -1,4 +1,4 @@
-import { BadRequestException, HttpException, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { SignUpDto } from './DTO/signUp.dto';
@@ -10,7 +10,7 @@ import { SigninDTO } from './DTO/signIn.dto';
 export class UsersService {
   constructor(
     @InjectRepository(Users) private readonly userRepo: Repository<Users>,
-  ) { }
+  ) {}
 
   async createUser(userData: SignUpDto) {
     const { password, ...Data } = userData;
@@ -34,7 +34,7 @@ export class UsersService {
 
     await this.userRepo.save(createUser);
 
-    return "new user is created"
+    return { message: `Register Successfully:`, createdUser: createUser };
   }
 
   async loginUser(loginCredentials: SigninDTO) {
