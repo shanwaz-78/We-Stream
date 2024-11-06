@@ -22,9 +22,10 @@
   padding: 0;
 }
 
-body {
+body,html {
   font-family: "AvertaStd-Regular";
-  color: #0b0b0b
+  color: #0b0b0b;
+  height:100%
 }
 
 header {

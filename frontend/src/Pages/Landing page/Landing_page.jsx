@@ -2,6 +2,7 @@ import React from 'react'
 import Header from '../../Components/Header'
 import Footer from '../../Components/Footer'
 import './landing_page.css'
+import Carousel from '../../Components/Carousel'
 
 function Landing_page() {
     return (
@@ -14,7 +15,7 @@ function Landing_page() {
                     <button className='get_start_btn'>Get started-it's free!</button>
                 </div>
             </div>
-            <div className='sec__container' style={{ backgroundImage: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTkyMCIgaGVpZ2h0PSI3OTAiIHZpZXdCb3g9IjAgMCAxOTIwIDc5MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAgIDxwYXRoCiAgICAgICAgZD0iTTIxNjUgNDkwQzE3MDguMTEgMjgzLjA0OSAxMTA3IDEwMDQuNSA1MDAuMDQyIDcyMS42NDlDMTg4LjgyIDU3Ni42MTUgMTIzMS44NCAyNjMuNzg4IDEwMjUuOCAxMjQuMjg0QzgxOS43NjEgLTE1LjIyMDggNDE4LjY3MSAyMDkuNjczIDM4MCAyNDEuNUMyNDIuNSAzNTQuNjYzIDUwMC4wNDIgNDkwIDUwMC4wNDIgMjY3LjM2NUM1MDAuMDQyIDg4LjUxMzQgLTI4MS40OTEgLTExOC45NTUgLTU4NyA4OC41MTMzIgogICAgICAgIHN0cm9rZT0iI0U0RUNGRiIgc3Ryb2tlLXdpZHRoPSIzIiAvPgo8L3N2Zz4=" }}>
+            <div className='sec__container' >
                 <div className='sec__container_exa left_to_right'>
                     <div className='img_box'><img src="https://streamyard.com/next-static/_next/static/images/learn_more_image_guests_2x-779d420491bf19b54ee234f8c8776300.webp" alt="" /></div>
                     <div className='text_box'>
@@ -36,6 +37,10 @@ function Landing_page() {
                         <p>Stream to Facebook, YouTube, Instagram, LinkedIn, X (Twitter), Twitch, and more. Make your audience feel special by featuring their comments on screen.</p>
                     </div>
                 </div>
+            </div>
+            <div className='logo-list-container'>
+                <h3>Trusted by teams at:</h3>
+                <Carousel />
             </div>
             <div className='last_container'>
                 <div className='ls_container_content'>

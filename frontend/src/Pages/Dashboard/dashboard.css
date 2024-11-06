@@ -1,0 +1,90 @@
+.dashboard{
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.dsb-header{
+    height: 8%;
+    position: relative;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.267);
+    padding: 15px ;
+}
+.dsb-btn{
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+
+.dsb-btn span{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.add-icon{
+    opacity: 0;
+    transition: all ease 0.3s;
+}
+
+.dsb-btn:hover .add-icon{
+opacity: 1;
+}
+
+.dsb-btn-cont{
+    display: flex;
+    gap: 20px;
+}
+
+.dsb-section{
+display: flex;
+gap: 25px;
+height: 85%;
+width: 100%;
+padding: 10px 25px;
+}
+
+.left-section{
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    margin:10px 0 5px;
+}
+
+.right-section{
+    height: 100%;
+    background-color: rgba(211, 211, 211, 0.2);
+    width: 20%;
+    margin: 0 5px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.right-section button{
+    padding: 20px 0;
+}
+
+.stream__form{
+    display: flex;
+    flex-direction: column;
+    padding: 0 25px;
+    gap: 15px;
+}
+
+.schedule__dropdown{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.schedule__form{
+    display: flex;
+    /* flex-direction: column; */
+    gap: 10px;
+}

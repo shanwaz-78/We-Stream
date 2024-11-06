@@ -29,6 +29,7 @@ const Login = () => {
       }
       const { access_token } = response.data;
       localStorage.setItem(`token`, access_token);
+
       navigate("/");
     } catch (error) {
       setErrorMessage(
