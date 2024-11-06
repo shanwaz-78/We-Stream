@@ -113,6 +113,81 @@ footer {
   padding: 70px 20px 40px;
 }
 
+.footer__data {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  padding: 0 30px;
+}
+
+.logo__detail {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.logo__detail h1 {
+  font-size: 2.1rem;
+  color: var(--dark-color);
+}
+
+.logo__detail h1 span {
+  color: var(--light-color);
+}
+
+.logo__detail p {
+  font-size: 18px;
+  opacity: 0.8;
+}
+
+.po_co_st_j {
+  display: flex;
+  justify-content: space-between;
+}
+
+.po_co_st_j__heading {
+  font-size: 14px;
+}
+
+.po_co_st_j p {
+  font-size: 16px;
+  width: fit-content;
+  cursor: pointer;
+}
+
+.po_co_st_j p:hover {
+  border-bottom: 1.5px solid var(--light-color);
+}
+
+.po_co_st_j__details {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.po_co_st_j__items {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.social__media a {
+  padding-right: 10px;
+}
+
+.policy__details {
+  display: flex;
+  gap: 25px;
+  border-top: 1px solid rgba(0, 0, 0, 0.3);
+  padding-top: 15px;
+}
+
+.footer__data #copy_right {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;

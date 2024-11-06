@@ -1,18 +1,25 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./Login.module.css";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const API_URL = import.meta.env.VITE_API_URL || `http://localhost:3000`;
 
 const Login = () => {
   const [errorMessage, setErrorMessage] = useState("");
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    token ? navigate("/") : navigate("/login");
+  }, [navigate]);
 
   const onSubmit = async (data) => {
     try {
@@ -22,6 +29,7 @@ const Login = () => {
       }
       const { access_token } = response.data;
       localStorage.setItem(`token`, access_token);
+      navigate("/");
     } catch (error) {
       setErrorMessage(
         error.response?.data?.message ||
