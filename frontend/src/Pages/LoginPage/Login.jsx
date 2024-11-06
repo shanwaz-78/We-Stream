@@ -22,6 +22,7 @@ const Login = () => {
       }
       const { access_token } = response.data;
       localStorage.setItem(`token`, access_token);
+      console.log(access_token)
     } catch (error) {
       setErrorMessage(
         error.response?.data?.message ||
