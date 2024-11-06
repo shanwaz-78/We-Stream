@@ -3,6 +3,7 @@ import { AuthModule } from './auth/auth.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Users } from './users/Entity/user.entity';
 import { UsersModule } from './users/users.module';
+import { ScheduleMeetModule } from './meeting/meeting.module';
 
 @Module({
   imports: [
@@ -13,12 +14,13 @@ import { UsersModule } from './users/users.module';
       database: 'postgres',
       username: 'postgres',
       entities: [Users],
-      password: 'Asif@123',
+      password: '1234',
       synchronize: true,
       logging: true,
     }),
     AuthModule,
     UsersModule,
+    ScheduleMeetModule,
   ],
   controllers: [],
   providers: [],
