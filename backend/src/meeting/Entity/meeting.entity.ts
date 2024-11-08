@@ -11,6 +11,6 @@ export class ScheduleMeet {
   @Column({ type: 'varchar', length: 50 })
   author!: string;
 
-  @Column({ type: 'timestamp' })
+  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   dateAndTime!: Date;
 }

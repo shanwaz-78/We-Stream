@@ -10,17 +10,24 @@ import { Add } from '@mui/icons-material'
 import RadioButtonCheckedSharpIcon from '@mui/icons-material/RadioButtonCheckedSharp';
 import VideocamOutlinedIcon from '@mui/icons-material/VideocamOutlined';
 import Stream_Model from './Stream_Modal';
-
+import { useForm } from 'react-hook-form';
 
 
 function Dashboard_Comp(props) {
     const { handleTabChange, tabValue } = props
     const [open, setOpen] = React.useState(false);
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+      } = useForm();
+
+
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
     return (
         <div className='left-section'>
-            <Stream_Model handleClose={handleClose} open={open} />
+            <Stream_Model register={register} handleSubmit={handleSubmit} errors={errors} handleClose={handleClose} open={open} />
             <div className='dsb-btn-cont'>
                 <Button
                     className='dsb-btn'
