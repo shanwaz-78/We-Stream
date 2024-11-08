@@ -1,23 +1,8 @@
 import React, { useState } from 'react';
 import './Dashboard.css'
-import {
-    Box,
-    Tabs,
-    Tab,
-    Button,
-} from '@mui/material';
-import { TabContext, TabList, TabPanel } from '@mui/lab'
-import { Add } from '@mui/icons-material'
-import RadioButtonCheckedSharpIcon from '@mui/icons-material/RadioButtonCheckedSharp';
-import VideocamOutlinedIcon from '@mui/icons-material/VideocamOutlined';
+import {Button} from '@mui/material';
 import Dashboard_Comp from '../../Components/Dashboard_Comp';
 
-function a11yProps(index) {
-    return {
-        id: `vertical-tab-${index}`,
-        'aria-controls': `vertical-tabpanel-${index}`,
-    };
-}
 
 const Dashboard = () => {
     const [tabValue, setTabValue] = useState('1');

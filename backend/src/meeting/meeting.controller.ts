@@ -12,7 +12,7 @@ export class ScheduleMeetController {
     const meeting = await this.meetingService.scheduleMeet(scheduleDetails);
     return {
       statusCode: HttpStatus.CREATED,
-      message: 'Meeting scheduled successfully',
+      message: 'Stream scheduled successfully',
       data: meeting,
     };
   }
