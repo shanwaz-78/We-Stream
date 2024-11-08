@@ -43,9 +43,9 @@ export default function Stream_Model(props) {
     const onSubmit = async (data) => {
         try {
             let { date, time, ...restData } = data
-            let dateTime = `${date}T${time}`
+            let dateAndTime = `${date}T${time}`
 
-            const dataObj = dateTime.length > 0 ? { ...restData, dateTime } : { restData }
+            const dataObj = dateAndTime.length > 0 ? { ...restData, dateAndTime } : { restData }
 
             const response = await axios.post(`${API_URL}/meeting/schedule`, dataObj)
             console.log(response.data.message)
