@@ -4,6 +4,7 @@ import Login from "../Pages/LoginPage/Login.jsx";
 import Signup from "../Pages/SignupPage/Signup.jsx";
 import Landing_page from "../Pages/Landing page/Landing_page.jsx";
 import Dashboard from "../Pages/Dashboard/Dashboard.jsx";
+import Stream_Page from "../Pages/Stream Page/Stream_Page.jsx";
 
 const AppRoutes = () => {
   return useRoutes([
@@ -27,6 +28,11 @@ const AppRoutes = () => {
       exact: true,
       element: <Dashboard />
     },
+    {
+      path: ROUTES.STREAM,
+      exact: true,
+      element: <Stream_Page />
+    }
   ]);
 };
 
