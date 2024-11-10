@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  InternalServerErrorException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { SignUpDto } from './DTO/signUp.dto';
@@ -13,55 +17,79 @@ export class UsersService {
   ) {}
 
   async createUser(userData: SignUpDto) {
-    const { password, ...Data } = userData;
+    try {
+      const { password, ...Data } = userData;
 
-    const user = await this.findByUsername(Data.username);
-    if (user) {
-      throw new BadRequestException('Username already exists');
+      const user = await this.findByUsername(Data.username);
+      if (user) {
+        throw new BadRequestException('Username already exists');
+      }
+
+      const user_email = await this.findByEmail(Data.email);
+      if (user_email) {
+        throw new BadRequestException('Email already exists');
+      }
+
+      const hashPass = await bcrypt.hash(password, 10);
+
+      const createUser = this.userRepo.create({
+        password: hashPass,
+        ...Data,
+      });
+
+      await this.userRepo.save(createUser);
+
+      return { message: `Register Successfully`, createdUser: createUser };
+    } catch (error) {
+      if (error instanceof BadRequestException) {
+        throw error;
+      } else {
+        throw new InternalServerErrorException('Failed to create user');
+      }
     }
-
-    const user_email = await this.findByEmail(Data.email);
-    if (user_email) {
-      throw new BadRequestException('Email already exists');
-    }
-
-    const hashPass = await bcrypt.hash(password, 10);
-
-    const createUser = this.userRepo.create({
-      password: hashPass,
-      ...Data,
-    });
-
-    await this.userRepo.save(createUser);
-
-    return { message: `Register Successfully:`, createdUser: createUser };
   }
 
   async loginUser(loginCredentials: SigninDTO) {
-    const { email, password } = loginCredentials;
-    const isUserRegistered = await this.findByEmail(email);
+    try {
+      const { email, password } = loginCredentials;
 
-    if (!isUserRegistered) {
-      throw new BadRequestException('Invalid email or password');
+      const isUserRegistered = await this.findByEmail(email);
+      if (!isUserRegistered) {
+        throw new BadRequestException('Invalid email or password');
+      }
+
+      const isUserValid = await bcrypt.compare(
+        password,
+        isUserRegistered.password,
+      );
+
+      if (!isUserValid) {
+        throw new BadRequestException('Invalid email or password');
+      }
+
+      return isUserRegistered;
+    } catch (error) {
+      if (error instanceof BadRequestException) {
+        throw error;
+      } else {
+        throw new InternalServerErrorException('Failed to login user');
+      }
     }
-
-    const isUserValid = await bcrypt.compare(
-      password,
-      isUserRegistered.password,
-    );
-
-    if (!isUserValid) {
-      throw new BadRequestException('Invalid email or password');
-    }
-
-    return isUserRegistered;
   }
 
   async findByUsername(username: string) {
-    return await this.userRepo.findOne({ where: { username } });
+    try {
+      return await this.userRepo.findOne({ where: { username } });
+    } catch (error) {
+      throw new InternalServerErrorException('Failed to find user by username');
+    }
   }
 
   async findByEmail(email: string) {
-    return await this.userRepo.findOneBy({ email });
+    try {
+      return await this.userRepo.findOneBy({ email });
+    } catch (error) {
+      throw new InternalServerErrorException('Failed to find user by email');
+    }
   }
 }

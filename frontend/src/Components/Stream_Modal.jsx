@@ -47,7 +47,7 @@ export default function Stream_Model(props) {
 
             const dataObj = dateAndTime.length > 0 ? { ...restData, dateAndTime } : { restData }
 
-            const response = await axios.post(`${API_URL}/meeting/schedule`, dataObj)
+            const response = await axios.post(`${API_URL}/stream/schedule`, dataObj)
             console.log(response.data.message)
             if (response.status === 201) {
                 setAlertSeverity('success');

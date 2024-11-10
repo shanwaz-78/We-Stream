@@ -1,7 +1,6 @@
-import { Optional } from '@nestjs/common';
-import { IsString, IsDateString, IsNotEmpty } from 'class-validator';
+import { IsString, IsNotEmpty, IsOptional } from 'class-validator';
 
-export class ScheduleMeetDTO {
+export class ScheduleStreamDTO {
   @IsNotEmpty({ message: 'Please provide title' })
   @IsString()
   title!: string;
@@ -9,7 +8,10 @@ export class ScheduleMeetDTO {
   @IsNotEmpty({ message: 'Please provide stream author name' })
   @IsString()
   author!: string;
-  
- 
-  dateAndTime!: string;
+
+  @IsOptional()
+  dateAndTime?: string;
+
+  @IsOptional()
+  isCompleted?: boolean;
 }
