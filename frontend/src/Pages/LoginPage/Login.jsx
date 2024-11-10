@@ -18,7 +18,7 @@ const Login = () => {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    token ? navigate("/") : navigate("/login");
+    token ? navigate("/dashboard") : navigate("/login");
   }, [navigate]);
 
   const onSubmit = async (data) => {
@@ -30,7 +30,7 @@ const Login = () => {
       const { access_token } = response.data;
       localStorage.setItem(`token`, access_token);
 
-      navigate("/");
+      navigate("/dashboard");
     } catch (error) {
       setErrorMessage(
         error.response?.data?.message ||
