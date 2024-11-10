@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './Dashboard.css'
+import './dashboard.css'
 import {Button} from '@mui/material';
 import Dashboard_Comp from '../../Components/Dashboard_Comp';
 
