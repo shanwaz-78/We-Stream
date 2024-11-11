@@ -7,7 +7,7 @@ import { ScheduleStreamModule } from './scheduleStream/stream.module';
 import { ScheduleStream } from './scheduleStream/Entity/stream.entity';
 import * as dotenv from 'dotenv'
 import * as path from 'path';
-ScheduleStreamModule
+
 dotenv.config({ path: path.join(__dirname, '../.env') })
 
 @Module({

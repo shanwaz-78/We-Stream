@@ -18,11 +18,17 @@ import VideocamOutlinedIcon from "@mui/icons-material/VideocamOutlined";
 import Stream_Model from "./Stream_Modal";
 import { useForm } from "react-hook-form";
 import axios from "axios";
+import Edit_Stream_model from "./Edit_Stream_model";
+import Upcoming_stream from "./Upcoming_stream";
+import Past_streams from "./Past_streams";
 
-const API_URL = import.meta.env.VITE_API_URL;
+const API_URL = import.meta.env.VITE_API_URL || `http://localhost:3000`;
 
 function Dashboard_Comp({ handleTabChange, tabValue }) {
   const [open, setOpen] = useState(false);
+  const [openEditModel, setOpenEditModel] = useState(false);
+  const [formData, setFormData] = useState([])
+  const [editData, setEditData] = useState({})
   const [scheduledStream, setScheduledStream] = useState([]);
 
   const {
@@ -41,12 +47,34 @@ function Dashboard_Comp({ handleTabChange, tabValue }) {
     }
   };
 
+  const deleteStream = async (id) => {
+    try {
+      const res = await axios.delete(`${API_URL}/stream/delete-stream/${id}`)
+      console.log(res)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   useEffect(() => {
     getAllMeetings();
-  }, []);
+  }, [formData, scheduledStream]);
 
   const handleOpen = () => setOpen(true);
+  const handleEditOpen = (id) => {
+    console.log(id)
+    const item = scheduledStream.find(item => item.stream_id === id)
+    console.log(item)
+    setEditData(item)
+    setOpenEditModel(true)
+
+  }
   const handleClose = () => setOpen(false);
+  const handleEditClose = () => {
+    setOpenEditModel(false)
+    setEditData({})
+  }
+
 
   return (
     <div className="left-section">
@@ -56,9 +84,11 @@ function Dashboard_Comp({ handleTabChange, tabValue }) {
         errors={errors}
         handleClose={handleClose}
         open={open}
+        setFormData={setFormData}
       />
       <div className="dsb-btn-cont">
         <Button
+          id='open'
           className="dsb-btn"
           variant="outlined"
           onClick={handleOpen}
@@ -112,81 +142,9 @@ function Dashboard_Comp({ handleTabChange, tabValue }) {
             </TabList>
           </Box>
           <TabPanel value="1">
-            <TableContainer
-              component={Paper}
-              sx={{
-                maxHeight: 440,
-                overflowY: "auto",
-                overflowX: "auto",
-                width: "100%",
-              }}
-            >
-              <Table>
-                <TableHead>
-                  <TableRow>
-                    <TableCell align="center">Title</TableCell>
-                    <TableCell align="center">Author</TableCell>
-                    <TableCell align="center">Date and Time</TableCell>
-                    <TableCell align="center">Actions</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {scheduledStream.length ? (
-                    scheduledStream.map((stream) => (
-                      <TableRow key={stream.stream_id}>
-                        <TableCell align="center">{stream.title}</TableCell>
-                        <TableCell align="center">{stream.author}</TableCell>
-                        <TableCell align="center">
-                          {new Date(stream.dateAndTime).toLocaleString()}
-                        </TableCell>
-                        <TableCell align="center">
-                          <Button
-                            variant="outlined"
-                            color="primary"
-                            sx={{
-                              fontSize: {
-                                xs: "0.5rem",
-                                sm: "0.7rem",
-                              },
-                            }}
-                          >
-                            Edit
-                          </Button>
-                          <Button
-                            variant="outlined"
-                            color="secondary"
-                            sx={{
-                              ml: 1,
-                              fontSize: { xs: "0.5rem", sm: "0.7rem" },
-                            }}
-                          >
-                            Delete
-                          </Button>
-                          <Button
-                            variant="outlined"
-                            color="secondary"
-                            sx={{
-                              ml: 1,
-                              fontSize: { xs: "0.5 rem", sm: "0.7rem" },
-                            }}
-                          >
-                            Complete
-                          </Button>
-                        </TableCell>
-                      </TableRow>
-                    ))
-                  ) : (
-                    <TableRow>
-                      <TableCell colSpan={4} align="center">
-                        No upcoming streams
-                      </TableCell>
-                    </TableRow>
-                  )}
-                </TableBody>
-              </Table>
-            </TableContainer>
+            <Upcoming_stream deleteStream={deleteStream} openEditModel={openEditModel} handleEditOpen={handleEditOpen} scheduledStream={scheduledStream} handleEditClose={handleEditClose} handleSubmit={handleSubmit} register={register} error={errors} editData={editData} setFormData={setFormData}/>
           </TabPanel>
-          <TabPanel value="2">There is no stream history</TabPanel>
+          <TabPanel value="2"><Past_streams/></TabPanel>
         </TabContext>
       </Box>
     </div>

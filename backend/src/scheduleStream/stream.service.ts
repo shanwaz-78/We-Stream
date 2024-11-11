@@ -36,6 +36,16 @@ export class ScheduleStreamService {
     }
   }
 
+  async getPastStreams(): Promise<ScheduleStream[]> {
+    try {
+      return await this.scheduleStreamRepo.find({
+        where: { isCompleted: true },
+      });
+    } catch (error) {
+      throw new InternalServerErrorException('Failed to retrieve streams');
+    }
+  }
+
   async completeStream(streamId: number): Promise<ScheduleStream> {
     try {
       await this.scheduleStreamRepo.update(streamId, { isCompleted: true });

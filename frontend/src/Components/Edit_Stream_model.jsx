@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, memo } from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
@@ -22,16 +22,26 @@ const style = {
     gap: "5px"
 };
 
-export default function Stream_Model(props) {
-    const { handleClose, open, register, handleSubmit, setFormData } = props
+const Edit_Stream_model = (props) => {
+    const { handleClose, open, register, handleSubmit, setFormData, editData } = props
     const [openMenu, setOpen] = useState(false);
     const [snackbarOpen, setSnackbarOpen] = useState(false);
-    const [alertSeverity, setAlertSeverity] = useState('success'); // 'success' or 'error'
+    const [alertSeverity, setAlertSeverity] = useState('success');
     const [alertMessage, setAlertMessage] = useState('');
+    const [formObj, setFormObj] = useState({
+        title: '',
+        author: '',
+        date: '',
+        time: ''
+    })
+    const changleHandler = (e) => {
+        const { name, value } = e.target
+        return setFormObj(preObj => ({ ...preObj, [name]: value }))
+    }
 
+    const [date, time] = editData?.dateAndTime?.length > 0 ? editData?.dateAndTime.split('T') : ''
 
     const API_URL = import.meta.env.VITE_API_URL || `http://localhost:3000`
-
     const handleToggle = () => {
         setOpen((prev) => !prev);
     };
@@ -40,35 +50,52 @@ export default function Stream_Model(props) {
         setSnackbarOpen(false);
     };
 
-    const onSubmit = async (data) => {
-        setFormData(data)
-console.log(data)
+    useEffect(() => {
+        if (editData) {
+            setFormObj({
+                title: editData.title || '',
+                author: editData.author || '',
+                date: date || '',
+                time: time || ''
+            });
+        }
+    }, [editData]);
+
+
+
+    const id = editData.stream_id
+    const onSubmit = async () => {
+        setFormData(formObj)
         try {
-            let { date, time, ...restData } = data
+            let { date, time, ...restData } = formObj
             let dateAndTime = `${date}T${time}`
 
             const dataObj = dateAndTime.length > 0 ? { ...restData, dateAndTime } : { restData }
 
-            const response = await axios.post(`${API_URL}/stream/schedule`, dataObj)
+            const response = await axios.put(`${API_URL}/stream/edit-stream/${id}`, dataObj)
             console.log(response.data.message)
-            if (response.status === 201) {
+            if (response.status === 200) {
                 setAlertSeverity('success');
                 setAlertMessage(response.data.message);
             } else {
-                throw new Error('Failed to schedule the meeting.');
+
+                throw new Error('Failed to update the meeting.');
             }
         } catch (error) {
+            console.log(error)
             setAlertSeverity('error');
             setAlertMessage(error.message || 'Something went wrong!');
+
         } finally {
             setSnackbarOpen(true);
         }
 
     }
+
     return (
         <div>
             <Modal
-                id = 'model'
+                id='close-edit'
                 open={open}
                 onClose={handleClose}
                 aria-labelledby="modal-modal-title"
@@ -80,14 +107,20 @@ console.log(data)
                     </Typography>
                     <form onSubmit={handleSubmit(onSubmit)} autoComplete='true' className='stream__form'>
                         <TextField
+                            name='title'
                             label="Stream Title"
                             variant='standard'
                             {...register("title")}
+                            value={formObj?.title}
+                            onChange={changleHandler}
                         />
                         <TextField
+                            name='author'
                             label="Join As"
                             variant='standard'
                             {...register("author")}
+                            value={formObj.author}
+                            onChange={changleHandler}
                         />
 
                         <div className='schedule__dropdown'>
@@ -97,14 +130,13 @@ console.log(data)
                             <Collapse in={openMenu}>
                                 <Box sx={{ mt: 2, p: 2, borderRadius: 1 }}>
                                     <div className='schedule__form'>
-                                        <TextField variant='standard' type='date' {...register("date")} />
-                                        <TextField variant='standard' type='time' {...register("time")} />
+                                        <TextField variant='standard' type='date' name='date' value={formObj.date} onChange={changleHandler} {...register("date")} />
+                                        <TextField variant='standard' type='time' name='time' value={formObj?.time?.slice(0,5)} onChange={changleHandler} {...register("time")} />
                                         <Button type='submit' id='done' variant='contained'>Done</Button>
                                     </div>
                                 </Box>
                             </Collapse>
                         </div>
-                        <Button type='submit' id='instStream' variant='contained' >Instant Stream</Button>
                     </form>
                 </div>
             </Modal>
@@ -121,3 +153,5 @@ console.log(data)
         </div>
     );
 }
+
+export default memo(Edit_Stream_model)
