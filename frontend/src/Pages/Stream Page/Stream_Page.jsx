@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import './Stream_Page.css'
+import './Stream_page.css'
 import { Box, Typography, Paper, Button, Grid2, TextField, IconButton } from "@mui/material";
 import { Mic, Videocam, Stop, Favorite, Person, Send } from "@mui/icons-material";
 import { green } from "@mui/material/colors"

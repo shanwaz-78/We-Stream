@@ -7,7 +7,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { ScheduleStream } from './Entity/stream.entity';
 import { ScheduleStreamDTO } from './DTO/stream.dto';
-import { promises } from 'dns';
 
 @Injectable()
 export class ScheduleStreamService {

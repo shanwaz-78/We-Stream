@@ -45,6 +45,7 @@ export class ScheduleStreamController {
     };
   }
 
+
   @Post('/complete-stream/:streamId')
   async completeStream(@Param('streamId') streamId: number) {
     const updatedStream = await this.streamService.completeStream(streamId);
