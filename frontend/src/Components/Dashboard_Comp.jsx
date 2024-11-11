@@ -27,8 +27,8 @@ const API_URL = import.meta.env.VITE_API_URL || `http://localhost:3000`;
 function Dashboard_Comp({ handleTabChange, tabValue }) {
   const [open, setOpen] = useState(false);
   const [openEditModel, setOpenEditModel] = useState(false);
-  const [formData, setFormData] = useState([])
-  const [editData, setEditData] = useState({})
+  const [formData, setFormData] = useState([]);
+  const [editData, setEditData] = useState({});
   const [scheduledStream, setScheduledStream] = useState([]);
 
   const {
@@ -49,32 +49,33 @@ function Dashboard_Comp({ handleTabChange, tabValue }) {
 
   const deleteStream = async (id) => {
     try {
-      const res = await axios.delete(`${API_URL}/stream/delete-stream/${id}`)
-      console.log(res)
+      const res = await axios.delete(`${API_URL}/stream/delete-stream/${id}`);
+      const removedStream = scheduledStream.filter(
+        ({ stream_id }) => stream_id !== id
+      );
+      setFormData(removedStream);
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
 
   useEffect(() => {
     getAllMeetings();
-  }, [formData, scheduledStream]);
+  }, [formData]);
 
   const handleOpen = () => setOpen(true);
   const handleEditOpen = (id) => {
-    console.log(id)
-    const item = scheduledStream.find(item => item.stream_id === id)
-    console.log(item)
-    setEditData(item)
-    setOpenEditModel(true)
-
-  }
+    console.log(id);
+    const item = scheduledStream.find((item) => item.stream_id === id);
+    console.log(item);
+    setEditData(item);
+    setOpenEditModel(true);
+  };
   const handleClose = () => setOpen(false);
   const handleEditClose = () => {
-    setOpenEditModel(false)
-    setEditData({})
-  }
-
+    setOpenEditModel(false);
+    setEditData({});
+  };
 
   return (
     <div className="left-section">
@@ -88,7 +89,7 @@ function Dashboard_Comp({ handleTabChange, tabValue }) {
       />
       <div className="dsb-btn-cont">
         <Button
-          id='open'
+          id="open"
           className="dsb-btn"
           variant="outlined"
           onClick={handleOpen}
@@ -142,9 +143,22 @@ function Dashboard_Comp({ handleTabChange, tabValue }) {
             </TabList>
           </Box>
           <TabPanel value="1">
-            <Upcoming_stream deleteStream={deleteStream} openEditModel={openEditModel} handleEditOpen={handleEditOpen} scheduledStream={scheduledStream} handleEditClose={handleEditClose} handleSubmit={handleSubmit} register={register} error={errors} editData={editData} setFormData={setFormData}/>
+            <Upcoming_stream
+              deleteStream={deleteStream}
+              openEditModel={openEditModel}
+              handleEditOpen={handleEditOpen}
+              scheduledStream={scheduledStream}
+              handleEditClose={handleEditClose}
+              handleSubmit={handleSubmit}
+              register={register}
+              error={errors}
+              editData={editData}
+              setFormData={setFormData}
+            />
           </TabPanel>
-          <TabPanel value="2"><Past_streams/></TabPanel>
+          <TabPanel value="2">
+            <Past_streams />
+          </TabPanel>
         </TabContext>
       </Box>
     </div>
