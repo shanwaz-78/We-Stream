@@ -35,6 +35,16 @@ export class ScheduleStreamController {
     };
   }
 
+  @Get('/get-past-streams')
+  async getPastStreams(){
+    const stream = await this.streamService.getPastStreams();
+    return {
+      statusCode: HttpStatus.OK,
+      message: 'Streams fetched successfully',
+      data: stream,
+    };
+  }
+
   @Post('/complete-stream/:streamId')
   async completeStream(@Param('streamId') streamId: number) {
     const updatedStream = await this.streamService.completeStream(streamId);

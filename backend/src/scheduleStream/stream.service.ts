@@ -7,6 +7,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { ScheduleStream } from './Entity/stream.entity';
 import { ScheduleStreamDTO } from './DTO/stream.dto';
+import { promises } from 'dns';
 
 @Injectable()
 export class ScheduleStreamService {
@@ -30,6 +31,16 @@ export class ScheduleStreamService {
     try {
       return await this.scheduleStreamRepo.find({
         where: { isCompleted: false },
+      });
+    } catch (error) {
+      throw new InternalServerErrorException('Failed to retrieve streams');
+    }
+  }
+
+  async getPastStreams(): Promise<ScheduleStream[]> {
+    try {
+      return await this.scheduleStreamRepo.find({
+        where: { isCompleted: true },
       });
     } catch (error) {
       throw new InternalServerErrorException('Failed to retrieve streams');
