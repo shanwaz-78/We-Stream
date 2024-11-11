@@ -36,7 +36,13 @@ const Edit_Stream_model = (props) => {
     })
     const changleHandler = (e) => {
         const { name, value } = e.target
-        return setFormObj(preObj => ({ ...preObj, [name]: value }))
+        console.log(name, value)
+        return setFormObj(preObj =>
+        (
+            {
+                ...preObj,
+                [name]: value
+            }))
     }
 
     const [date, time] = editData?.dateAndTime?.length > 0 ? editData?.dateAndTime.split('T') : ''
@@ -130,8 +136,22 @@ const Edit_Stream_model = (props) => {
                             <Collapse in={openMenu}>
                                 <Box sx={{ mt: 2, p: 2, borderRadius: 1 }}>
                                     <div className='schedule__form'>
-                                        <TextField variant='standard' type='date' name='date' value={formObj.date} onChange={changleHandler} {...register("date")} />
-                                        <TextField variant='standard' type='time' name='time' value={formObj?.time?.slice(0,5)} onChange={changleHandler} {...register("time")} />
+                                        <TextField
+                                            name='date'
+                                            variant='standard'
+                                            type='date'
+                                            {...register("date")}
+                                            value={formObj.date}
+                                            onChange={changleHandler}
+                                        />
+                                        <TextField
+                                            name='time'
+                                            variant='standard'
+                                            type='time'
+                                            {...register("time")}
+                                            value={formObj?.time?.slice(0, 5)}
+                                            onChange={changleHandler}
+                                        />
                                         <Button type='submit' id='done' variant='contained'>Done</Button>
                                     </div>
                                 </Box>

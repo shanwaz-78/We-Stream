@@ -1,4 +1,5 @@
-import React, {useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
+import {Link} from 'react-router-dom'
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
@@ -41,7 +42,8 @@ export default function Stream_Model(props) {
 
     const onSubmit = async (data) => {
         setFormData(data)
-console.log(data)
+        console.log(data)
+
         try {
             let { date, time, ...restData } = data
             let dateAndTime = `${date}T${time}`
@@ -67,7 +69,7 @@ console.log(data)
     return (
         <div>
             <Modal
-                id = 'model'
+                id='model'
                 open={open}
                 onClose={handleClose}
                 aria-labelledby="modal-modal-title"
@@ -103,7 +105,7 @@ console.log(data)
                                 </Box>
                             </Collapse>
                         </div>
-                        <Button type='submit' id='instStream' variant='contained' >Instant Stream</Button>
+                       <Link to='/stream' ><Button type='submit' id='instStream' variant='contained'style={{width:'100%'}} >Instant Stream</Button></Link> 
                     </form>
                 </div>
             </Modal>
