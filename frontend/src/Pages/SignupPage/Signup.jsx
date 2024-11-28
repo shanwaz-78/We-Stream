@@ -3,14 +3,12 @@ import { useForm } from "react-hook-form";
 import styles from "./Signup.module.css";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { useUser } from "../../Context/UserContext";
 
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
 
 const Signup = () => {
   const navigate = useNavigate();
-  const [errorMessage, setErrorMessage] = useState("");
-  const { setUser } = useUser();
+  const [errorMessage, setErrorMessage] = useState("")
 
   const {
     register,
