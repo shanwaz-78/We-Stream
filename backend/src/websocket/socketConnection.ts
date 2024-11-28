@@ -6,15 +6,14 @@ interface Users {
 
 const createSocketConnection = (server: any): void => {
   const io = new Server(server, {
-    cors: { origin: '*' },
+    cors: { origin: '*', methods: ['GET', 'POST'] },
   });
 
   const users: Users = {};
 
   io.on('connection', (socket: Socket) => {
     socket.on('new-user-joined', (userName: string) => {
-      users[socket.id] = userName;
-      socket.broadcast.emit('user-joined', userName);
+      users[socket.id] = userName || 'guest';
       io.emit('active-users', Object.values(users).length);
     });
 
