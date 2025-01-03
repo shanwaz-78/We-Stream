@@ -4,12 +4,21 @@ interface Users {
   [socketId: string]: string;
 }
 
+interface Message {
+  username: string;
+  message: string;
+  timestamp: string;
+}
+
 const createSocketConnection = (server: any): void => {
   const io = new Server(server, {
     cors: { origin: '*', methods: ['GET', 'POST'] },
   });
 
   const users: Users = {};
+  let likes: number = 0
+
+
 
   io.on('connection', (socket: Socket) => {
     socket.on('new-user-joined', (userName: string) => {
@@ -18,11 +27,25 @@ const createSocketConnection = (server: any): void => {
     });
 
     socket.on('send', (message: string) => {
-      socket.broadcast.emit('receive', {
-        username: users[socket.id],
+      const messageObject: Message = {
+        username: users[socket.id] || 'Guest',
         message,
-      });
+        timestamp: new Date().toISOString(),
+      };
+
+      console.log(messageObject);
+      io.emit('receive', messageObject);
     });
+
+    socket.on('setLikes', (num: number) => {
+      likes = num
+      io.emit('getLikes', likes)
+    })
+
+    socket.on('setStream', (data) => {
+      console.log("streamdata", data)
+      socket.broadcast.emit('getStream', data)
+    })
 
     socket.on('disconnect', () => {
       const disconnectedUser = users[socket.id];
